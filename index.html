@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>今天也要加油鸭 · 待办与番茄专注</title>
+<link rel="stylesheet" href="style-v2.css">
+<!-- SECTION: favicon -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='36' r='20' fill='%23FFD166'/%3E%3Ccircle cx='38' cy='22' r='13' fill='%23FFD166'/%3E%3Ccircle cx='42' cy='19' r='2.4' fill='%234A3A22'/%3E%3Cpath d='M50 22 L61 24.5 L50 27 Z' fill='%23FF9F45'/%3E%3Cpath d='M18 36 q10 -6 18 2 q-9 7 -18 -2z' fill='%23F5B93C'/%3E%3C/svg%3E">
+</head>
+<body>
+
+<!-- SECTION: sprite 图标集（全部手绘 SVG，替代 emoji） -->
+<svg class="sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M4.5 12.5l5 5L19.5 7"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m-9 0l1 12a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2l1-12M10 11v6M14 11v6"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L19 9a2.1 2.1 0 0 0-3-3L5 17v3zM14.5 7.5l2 2"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M8.5 6.5h12M8.5 12h12M8.5 17.5h12M3.8 6.5h.01M3.8 12h.01M3.8 17.5h.01" stroke-width="2.4"/></symbol>
+  <symbol id="i-timer" viewBox="0 0 24 24"><circle cx="12" cy="13.5" r="7.5"/><path d="M12 9.5v4l2.6 2M9 3h6M12 3v3"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.8c0-.9 1-1.5 1.8-1L19.3 11c.7.5.7 1.6 0 2L8.8 20.2c-.8.5-1.8-.1-1.8-1V4.8z"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="4.5" width="4.2" height="15" rx="1.4"/><rect x="13.8" y="4.5" width="4.2" height="15" rx="1.4"/></symbol>
+  <symbol id="i-prev" viewBox="0 0 24 24"><path d="M18.5 5.6v12.8c0 .9-1 1.4-1.7.9L8.4 13.6V19a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h1.4a1 1 0 0 1 1 1v5.6l8.4-5.7c.7-.5 1.7 0 1.7.7z"/></symbol>
+  <symbol id="i-next" viewBox="0 0 24 24"><path d="M5.5 5.6v12.8c0 .9 1 1.4 1.7.9l8.4-5.7V19a1 1 0 0 0 1 1H18a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1h-1.4a1 1 0 0 0-1 1v5.6L7.2 4.9c-.7-.5-1.7 0-1.7.7z"/></symbol>
+  <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.4-5.7M20 4v4h-4"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M5 20V14M5 10V4M12 20v-8M12 8V4M19 20v-4M19 12V4M2.8 12h4.4M9.8 10h4.4M16.8 16h4.4"/></symbol>
+  <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V6.5l11-2V16"/><circle cx="6.5" cy="18" r="2.7"/><circle cx="17.5" cy="16" r="2.7"/></symbol>
+  <symbol id="i-note" viewBox="0 0 24 24"><path d="M9 18V5l10-2v13"/><circle cx="6.5" cy="18" r="2.7"/><circle cx="16.5" cy="16" r="2.7"/></symbol>
+  <symbol id="i-eq" viewBox="0 0 24 24"><path d="M5 20V10M10 20V4M15 20v-8M20 20V7" stroke-width="2.6"/></symbol>
+  <symbol id="i-volume" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13L7.5 14.5H4a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1zM16 9a4.5 4.5 0 0 1 0 6M19 6.5a8 8 0 0 1 0 11"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M4 15v3.5A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5V15"/></symbol>
+  <symbol id="i-rain" viewBox="0 0 24 24"><path d="M7.5 15a4.5 4.5 0 0 1-.3-9A6 6 0 0 1 18.6 7a4 4 0 0 1 .4 8M8.5 18l-1 2.5M12.5 18l-1 2.5M16.5 18l-1 2.5"/></symbol>
+  <symbol id="i-wave" viewBox="0 0 24 24"><path d="M2.5 9c2-2 3.8-2 5.8 0s3.8 2 5.8 0 3.8-2 5.8 0M2.5 14c2-2 3.8-2 5.8 0s3.8 2 5.8 0 3.8-2 5.8 0M2.5 19c2-2 3.8-2 5.8 0s3.8 2 5.8 0 3.8-2 5.8 0"/></symbol>
+  <symbol id="i-fire" viewBox="0 0 24 24"><path d="M12 21c3.9 0 6.5-2.5 6.5-6 0-4.2-3.7-6.2-4.6-11-.1-.6-.9-.8-1.2-.2C11 7 10 8.4 10 10.5c0 1-.6 1.6-1.4 1.6-.9 0-1.5-.7-1.6-1.8-1 1.4-1.5 3-1.5 4.7 0 3.5 2.6 6 6.5 6z"/><path d="M12 21c1.8 0 3-1.2 3-2.9 0-1.9-1.7-2.7-3-5-1.3 2.3-3 3.1-3 5 0 1.7 1.2 2.9 3 2.9z"/></symbol>
+  <symbol id="i-cafe" viewBox="0 0 24 24"><path d="M4 9h13v5.5A5.5 5.5 0 0 1 11.5 20h-2A5.5 5.5 0 0 1 4 14.5V9zM17 10.5h1.8a2.2 2.2 0 0 1 0 4.4H17M3 22h15M7.5 6c.8-1 .8-2 0-3M11.5 6c.8-1 .8-2 0-3"/></symbol>
+  <symbol id="i-tomato" viewBox="0 0 24 24"><path d="M12 8c4.7 0 8 3 8 7s-3.3 6-8 6-8-2-8-6 3.3-7 8-7z"/><path d="M12 8V4M12 5.5c-1.8 0-3-.9-3.6-2 1.7 0 2.9.4 3.6 1.2.7-.8 1.9-1.2 3.6-1.2-.6 1.1-1.8 2-3.6 2z"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20.5S3.8 15.4 3.8 9.6A4.3 4.3 0 0 1 12 7.8a4.3 4.3 0 0 1 8.2 1.8c0 5.8-8.2 10.9-8.2 10.9z"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l2.1 5.9L20 11l-5.9 2.1L12 19l-2.1-5.9L4 11l5.9-2.1zM19 17l.9 2.1L22 20l-2.1.9L19 23l-.9-2.1L16 20l2.1-.9zM5 2l.7 1.8L7.5 4.5l-1.8.7L5 7l-.7-1.8L2.5 4.5l1.8-.7z"/></symbol>
+  <symbol id="i-sprout" viewBox="0 0 24 24"><path d="M12 21v-7M12 14C12 9.5 8.5 6 4 6c0 4.5 3.5 8 8 8zM12 14c0-4.5 3.5-8 8-8 0 4.5-3.5 8-8 8z"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6h.01" stroke-width="2.4"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7.5 3v5.2c0 4.6-3.1 8.3-7.5 9.8-4.4-1.5-7.5-5.2-7.5-9.8V6z"/><path d="M8.8 12.2l2.2 2.2 4.2-4.4"/></symbol>
+
+  <!-- SECTION: logo 鸭子（页面大 logo，多色） -->
+  <g id="duck-logo">
+    <ellipse cx="52" cy="76" rx="26" ry="16" fill="#FFD166"/>
+    <ellipse cx="46" cy="78" rx="14" ry="8" fill="#F5B93C" opacity=".55"/>
+    <path d="M30 70 q14 -9 24 3 q-12 10 -24 -3z" fill="#F5B93C"/>
+    <circle cx="66" cy="44" r="20" fill="#FFD166"/>
+    <circle cx="74" cy="38" r="3.6" fill="#4A3A22"/>
+    <circle cx="75.2" cy="36.8" r="1.2" fill="#FFFFFF"/>
+    <path d="M84 44 L102 48.5 L84 53 Q80 48.5 84 44z" fill="#FF9F45"/>
+    <path d="M84 48.5 L98 48.5" stroke="#E8823A" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+    <ellipse cx="58" cy="40" rx="4" ry="7" fill="#FFD166" transform="rotate(-24 58 40)"/>
+    <ellipse cx="66" cy="36" rx="4" ry="8" fill="#FFE08A" transform="rotate(-8 66 36)"/>
+    <circle cx="60" cy="52" r="4.6" fill="#FFB5A0" opacity=".65"/>
+  </g>
+</svg>
+
+<div class="page">
+
+  <!-- SECTION: header -->
+  <header class="hero">
+    <div class="hero-top">
+      <div class="logo" aria-hidden="true">
+        <svg class="icon-logo" viewBox="0 0 110 100"><use href="#duck-logo"></use></svg>
+      </div>
+      <div class="brand" style="min-width:0">
+        <h1 id="greeting">今天也要加油鸭<span class="tag">Focus Studio</span></h1>
+        <p class="date" id="today"></p>
+      </div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-head">
+        <strong><span id="noteIco"></span>今日进度</strong>
+        <span id="progressCount">0 / 0 项</span>
+      </div>
+      <div class="bar"><div class="bar-fill" id="barFill"></div></div>
+      <p class="hero-note" id="heroNote"></p>
+    </div>
+  </header>
+
+  <div class="grid">
+    <div class="col">
+
+      <!-- SECTION: todo -->
+      <section class="card" aria-labelledby="todoTitle">
+        <div class="card-head">
+          <span class="head-ico" aria-hidden="true"></span>
+          <h2 id="todoTitle">我的待办</h2>
+          <span class="badge" id="todoBadge">0 项待完成</span>
+        </div>
+
+        <div class="composer">
+          <label class="field" for="todoInput">
+            <span id="editIco" aria-hidden="true" style="display:flex"></span>
+            <input id="todoInput" type="text" maxlength="80" placeholder="想做点什么？写下来吧…" autocomplete="off">
+          </label>
+          <button class="btn" id="addBtn" type="button">添加</button>
+        </div>
+        <p class="hint" id="inputHint"></p>
+
+        <div class="toolbar">
+          <div class="seg" role="tablist" aria-label="待办筛选">
+            <button type="button" role="tab" data-filter="all" aria-selected="true">全部</button>
+            <button type="button" role="tab" data-filter="active" aria-selected="false">未完成</button>
+            <button type="button" role="tab" data-filter="done" aria-selected="false">已完成</button>
+          </div>
+          <button class="mini" id="clearDone" type="button">清空已完成</button>
+        </div>
+
+        <ul class="list" id="todoList"></ul>
+        <div class="empty" id="emptyState" hidden>
+          <svg class="duck" id="emptyDuck" viewBox="0 0 110 100" aria-hidden="true"></svg>
+          <p id="emptyTitle">这里空空如也</p>
+          <small id="emptySub">在上面写下一件小事，开始今天的第一个任务吧</small>
+        </div>
+      </section>
+
+      <!-- SECTION: music -->
+      <section class="card" aria-labelledby="musicTitle">
+        <div class="card-head">
+          <span class="head-ico rose" aria-hidden="true"></span>
+          <h2 id="musicTitle">音乐角</h2>
+          <span class="badge" id="musicBadge">放松一下</span>
+        </div>
+
+        <div class="mblock">
+          <p class="mlabel" id="ambLabel">环境白噪音 · 可多个叠加，再点一次关闭</p>
+          <div class="amb-grid" role="group" aria-labelledby="ambLabel">
+            <button type="button" class="amb" data-sound="rain" data-name="雨声" aria-pressed="false">
+              <span class="pulse" aria-hidden="true"></span>雨声
+            </button>
+            <button type="button" class="amb" data-sound="wave" data-name="海浪" aria-pressed="false">
+              <span class="pulse" aria-hidden="true"></span>海浪
+            </button>
+            <button type="button" class="amb" data-sound="fire" data-name="篝火" aria-pressed="false">
+              <span class="pulse" aria-hidden="true"></span>篝火
+            </button>
+            <button type="button" class="amb" data-sound="cafe" data-name="咖啡馆" aria-pressed="false">
+              <span class="pulse" aria-hidden="true"></span>咖啡馆
+            </button>
+          </div>
+          <div class="vol">
+            <span id="volIco" aria-hidden="true" style="display:flex"></span>
+            <label class="sr" for="volRange">音量</label>
+            <input id="volRange" type="range" min="0" max="100" step="1" value="70">
+            <span class="val" id="volVal">70%</span>
+          </div>
+        </div>
+
+        <div class="mblock">
+          <p class="mlabel">本地音乐 · 文件只在这台设备上播放，不会上传</p>
+          <div class="mrow">
+            <button class="btn ghost upload" type="button" id="uploadBtn">
+              <span id="uploadIco" aria-hidden="true" style="display:flex"></span>选择音乐文件
+              <input id="fileInput" type="file" accept="audio/*,.mp3,.m4a,.wav,.ogg,.flac,.aac" multiple>
+            </button>
+          </div>
+          <p class="mempty" id="musicEmpty">还没有音乐，点上面按钮选择本机的 mp3 等音频文件</p>
+          <ul class="playlist" id="playlist"></ul>
+
+          <div class="nowbar" id="nowbar" hidden>
+            <div class="now-head">
+              <span class="eq" id="nowEq" aria-hidden="true"></span>
+              <span class="t" id="nowTitle"></span>
+            </div>
+            <input class="seek" id="seekBar" type="range" min="0" max="0" step="1" value="0" aria-label="播放进度">
+            <div class="now-ctl">
+              <button class="round" id="prevBtn" type="button" aria-label="上一首"></button>
+              <button class="round main" id="playBtn" type="button" aria-label="播放"></button>
+              <button class="round" id="nextBtn" type="button" aria-label="下一首"></button>
+              <span class="now-time"><span id="timeNow">00:00</span> / <span id="timeTotal">00:00</span></span>
+            </div>
+          </div>
+        </div>
+
+        <p class="tip"><span id="tipIco" aria-hidden="true" style="display:flex"></span><span>白噪音用浏览器实时合成，不依赖网络；本地音乐仅在页面打开期间可播，刷新后需要重新选择文件。</span></p>
+      </section>
+
+    </div>
+
+    <div class="col">
+
+      <!-- SECTION: pomodoro -->
+      <section class="card" aria-labelledby="pomoTitle">
+        <div class="card-head">
+          <span class="head-ico mint" aria-hidden="true"></span>
+          <h2 id="pomoTitle">番茄专注</h2>
+          <span class="badge" id="pomoBadge">25 分钟</span>
+        </div>
+
+        <div class="pomo-mode" role="group" aria-label="计时模式">
+          <button type="button" data-mode="focus" aria-pressed="true">专注</button>
+          <button type="button" data-mode="break" aria-pressed="false">休息</button>
+        </div>
+
+        <div class="dial">
+          <svg class="ring" viewBox="0 0 200 200" role="img" aria-label="专注计时进度环">
+            <defs>
+              <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#FFD35C"></stop>
+                <stop offset="100%" stop-color="#3FC79F"></stop>
+              </linearGradient>
+            </defs>
+            <circle class="ring-bg" cx="100" cy="100" r="88"></circle>
+            <circle class="ring-fg" id="ringFg" cx="100" cy="100" r="88"></circle>
+          </svg>
+          <div class="dial-center">
+            <div class="time" id="timeText">25:00</div>
+            <div class="mode-label"><span id="modeIco" style="display:flex"></span><span id="modeText">准备开始专注</span></div>
+          </div>
+        </div>
+
+        <div class="pomo-actions">
+          <button class="btn mint" id="startBtn" type="button">开始</button>
+          <button class="btn ghost" id="resetBtn" type="button">重置</button>
+        </div>
+
+        <div class="tomatoes" id="tomatoBox">
+          <span class="row" id="tomatoRow" aria-hidden="true"></span>
+          <span id="tomatoText">今天已专注 0 个番茄</span>
+        </div>
+
+        <button class="btn ghost block" id="settingBtn" type="button" aria-expanded="false" aria-controls="panel" style="margin-top:14px">自定义时长</button>
+
+        <!-- SECTION: settings panel -->
+        <div class="panel" id="panel" hidden>
+          <p class="panel-title"><span id="settingIco" aria-hidden="true" style="display:flex"></span>快速预设</p>
+          <div class="presets" role="group" aria-label="时长预设">
+            <button type="button" class="chip" data-focus="15" data-break="3" data-name="短专注 15+3" aria-pressed="false">15 + 3</button>
+            <button type="button" class="chip" data-focus="25" data-break="5" data-name="经典 25+5" aria-pressed="false">经典 25 + 5</button>
+            <button type="button" class="chip" data-focus="45" data-break="10" data-name="深度 45+10" aria-pressed="false">深度 45 + 10</button>
+            <button type="button" class="chip" data-focus="60" data-break="15" data-name="长专注 60+15" aria-pressed="false">60 + 15</button>
+          </div>
+          <p class="panel-title"><span id="customIco" aria-hidden="true" style="display:flex"></span>自定义</p>
+          <div class="duo">
+            <div class="num">
+              <label for="focusInput">专注</label>
+              <input id="focusInput" type="number" min="1" max="180" step="1" value="25" inputmode="numeric">
+              <span class="unit">分钟</span>
+            </div>
+            <div class="num">
+              <label for="breakInput">休息</label>
+              <input id="breakInput" type="number" min="1" max="60" step="1" value="5" inputmode="numeric">
+              <span class="unit">分钟</span>
+            </div>
+          </div>
+          <p class="hint plain" id="panelHint"></p>
+          <div class="panel-actions">
+            <button class="btn mint" id="applyBtn" type="button">应用时长</button>
+          </div>
+        </div>
+
+        <p class="tip"><span id="tipIco2" aria-hidden="true" style="display:flex"></span><span>专注时把手机放远一点，一个番茄只做一件事；结束后起身活动、喝口水再开始下一轮。页面打开时按空格也能开始/暂停计时。</span></p>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- SECTION: footer -->
+  <p class="foot"><span id="footIco" aria-hidden="true" style="display:flex"></span>数据只保存在你这台设备的浏览器里，刷新也不会丢 · 清理浏览器数据会一并清除</p>
+</div>
+
+<audio id="audio" preload="metadata"></audio>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- SECTION: static icons injection -->
+<script>
+(function () {
+  "use strict";
+  var map = {
+    editIco: "edit", volIco: "volume", uploadIco: "upload",
+    tipIco: "info", tipIco2: "info", settingIco: "sliders",
+    customIco: "timer", footIco: "shield", prevBtn: "prev",
+    nextBtn: "next"
+  };
+  Object.keys(map).forEach(function (id) {
+    var host = document.getElementById(id);
+    if (!host) return;
+    var s = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    s.setAttribute("class", "icon");
+    s.setAttribute("aria-hidden", "true");
+    var u = document.createElementNS("http://www.w3.org/2000/svg", "use");
+    u.setAttribute("href", "#i-" + map[id]);
+    s.appendChild(u);
+    host.appendChild(s);
+  });
+  var heads = document.querySelectorAll(".head-ico");
+  ["list", "music", "timer"].forEach(function (name, i) {
+    if (!heads[i]) return;
+    var s = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    s.setAttribute("class", "icon");
+    s.setAttribute("aria-hidden", "true");
+    var u = document.createElementNS("http://www.w3.org/2000/svg", "use");
+    u.setAttribute("href", "#i-" + name);
+    s.appendChild(u);
+    heads[i].appendChild(s);
+  });
+  var segs = document.querySelectorAll(".seg button");
+  ["list", "timer", "check"].forEach(function (name, i) {
+    if (!segs[i]) return;
+    var s = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    s.setAttribute("class", "icon");
+    s.setAttribute("aria-hidden", "true");
+    var u = document.createElementNS("http://www.w3.org/2000/svg", "use");
+    u.setAttribute("href", "#i-" + name);
+    s.appendChild(u);
+    segs[i].insertBefore(s, segs[i].firstChild);
+  });
+  var clear = document.getElementById("clearDone");
+  if (clear) {
+    var s2 = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    s2.setAttribute("class", "icon");
+    s2.setAttribute("aria-hidden", "true");
+    var u2 = document.createElementNS("http://www.w3.org/2000/svg", "use");
+    u2.setAttribute("href", "#i-trash");
+    s2.appendChild(u2);
+    clear.insertBefore(s2, clear.firstChild);
+  }
+  var add = document.getElementById("addBtn");
+  if (add) {
+    var s3 = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    s3.setAttribute("class", "icon");
+    s3.setAttribute("aria-hidden", "true");
+    var u3 = document.createElementNS("http://www.w3.org/2000/svg", "use");
+    u3.setAttribute("href", "#i-plus");
+    s3.appendChild(u3);
+    add.insertBefore(s3, add.firstChild);
+  }
+  var modes = document.querySelectorAll(".pomo-mode button");
+  ["timer", "moon"].forEach(function (name, i) {
+    if (!modes[i]) return;
+    var s = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    s.setAttribute("class", "icon");
+    s.setAttribute("aria-hidden", "true");
+    var u = document.createElementNS("http://www.w3.org/2000/svg", "use");
+    u.setAttribute("href", "#i-" + name);
+    s.appendChild(u);
+    modes[i].insertBefore(s, modes[i].firstChild);
+  });
+  var ambs = document.querySelectorAll(".amb");
+  ["rain", "wave", "fire", "cafe"].forEach(function (name, i) {
+    if (!ambs[i]) return;
+    var s = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    s.setAttribute("class", "icon");
+    s.setAttribute("aria-hidden", "true");
+    var u = document.createElementNS("http://www.w3.org/2000/svg", "use");
+    u.setAttribute("href", "#i-" + name);
+    s.appendChild(u);
+    ambs[i].insertBefore(s, ambs[i].firstChild.nextSibling);
+  });
+})();
+</script>
+<script src="script-v2.js"></script>
+</body>
+</html>
